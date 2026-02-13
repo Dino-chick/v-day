@@ -3,7 +3,7 @@ let musicPlaying = false
 window.addEventListener('load', () => {
     launchConfetti()
 
-    // Autoplay music (works since user clicked Yes to get here)
+    // Musik automatisch abspielen (funktioniert, da der Benutzer auf Ja geklickt hat, um hierher zu kommen)
     const music = document.getElementById('bg-music')
     music.volume = 0.3
     music.play().catch(() => {})
@@ -16,7 +16,7 @@ function launchConfetti() {
     const duration = 6000
     const end = Date.now() + duration
 
-    // Initial big burst
+    // Anfängliche große Explosion
     confetti({
         particleCount: 150,
         spread: 100,
@@ -24,7 +24,7 @@ function launchConfetti() {
         colors
     })
 
-    // Continuous side cannons
+    // Kontinuierliche Seitenkanonen
     const interval = setInterval(() => {
         if (Date.now() > end) {
             clearInterval(interval)
