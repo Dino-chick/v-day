@@ -1,31 +1,31 @@
 const gifStages = [
-    "https://media.tenor.com/EBV7OT7ACfwAAAAj/u-u-qua-qua-u-quaa.gif",    // 0 normal
-    "https://media1.tenor.com/m/uDugCXK4vI4AAAAd/chiikawa-hachiware.gif",  // 1 confused
-    "https://media.tenor.com/f_rkpJbH1s8AAAAj/somsom1012.gif",             // 2 pleading
-    "https://media.tenor.com/OGY9zdREsVAAAAAj/somsom1012.gif",             // 3 sad
-    "https://media1.tenor.com/m/WGfra-Y_Ke0AAAAd/chiikawa-sad.gif",       // 4 sadder
-    "https://media.tenor.com/CivArbX7NzQAAAAj/somsom1012.gif",             // 5 devastated
-    "https://media.tenor.com/5_tv1HquZlcAAAAj/chiikawa.gif",               // 6 very devastated
-    "https://media1.tenor.com/m/uDugCXK4vI4AAAAC/chiikawa-hachiware.gif"  // 7 crying runaway
+    "https://media.tenor.com/EBV7OT7ACfwAAAAj/u-u-qua-qua-u-quaa.gif ",    // 0 normal
+    "https://media1.tenor.com/m/uDugCXK4vI4AAAAd/chiikawa-hachiware.gif ",  // 1 verwirrt
+    "https://media.tenor.com/f_rkpJbH1s8AAAAj/somsom1012.gif ",             // 2 flehend
+    "https://media.tenor.com/OGY9zdREsVAAAAAj/somsom1012.gif ",             // 3 traurig
+    "https://media1.tenor.com/m/WGfra-Y_Ke0AAAAd/chiikawa-sad.gif ",       // 4 trauriger
+    "https://media.tenor.com/CivArbX7NzQAAAAj/somsom1012.gif ",             // 5 am Boden zerstört
+    "https://media.tenor.com/5_tv1HquZlcAAAAj/chiikawa.gif ",               // 6 sehr am Boden zerstört
+    "https://media1.tenor.com/m/uDugCXK4vI4AAAAC/chiikawa-hachiware.gif "  // 7 weinend weggelaufen
 ]
 
 const noMessages = [
-        „Nein“,
-    „Bist du dir sicher? 🤔“,
-    „Pookie, bitte... 🥺“,
-    „Wenn du nein sagst, werde ich sehr traurig sein...“,
-    „Ich werde sehr traurig sein... 😢",
-    „Bitte??? 💔“,
-    „Tu mir das nicht an...“,
-    „Letzte Chance! 😭“,
+    "Nein",
+    "Bist du dir sicher? 🤔",
+    "Pookie, bitte... 🥺",
+    "Wenn du nein sagst, werde ich sehr traurig sein...",
+    "Ich werde sehr traurig sein... 😢",
+    "Bitte??? 💔",
+    "Tu mir das nicht an...",
+    "Letzte Chance! 😭",
     "Du kannst mich sowieso nicht fangen 😜"
 ]
 
 const yesTeasePokes = [
-    "try saying no first... I bet you want to know what happens 😏",
-    "go on, hit no... just once 👀",
-    "you're missing out 😈",
-    "click no, I dare you 😏"
+    "versuch erst mal nein zu sagen... ich wette, du willst wissen, was passiert 😏",
+    "komm, drück auf nein... nur einmal 👀",
+    "da verpasst du was 😈",
+    "klick auf nein, ich fordere dich heraus 😏"
 ]
 
 let yesTeasedCount = 0
@@ -39,13 +39,13 @@ const yesBtn = document.getElementById('yes-btn')
 const noBtn = document.getElementById('no-btn')
 const music = document.getElementById('bg-music')
 
-// Autoplay: audio starts muted (bypasses browser policy), unmute immediately
+// Autoplay: Audio startet stumm (umgeht Browser-Richtlinie), sofort wieder einschalten
 music.muted = true
 music.volume = 0.3
 music.play().then(() => {
     music.muted = false
 }).catch(() => {
-    // Fallback: unmute on first interaction
+    // Fallback: Stummschaltung aufheben bei erster Interaktion
     document.addEventListener('click', () => {
         music.muted = false
         music.play().catch(() => {})
@@ -67,7 +67,7 @@ function toggleMusic() {
 
 function handleYesClick() {
     if (!runawayEnabled) {
-        // Tease her to try No first
+        // Sie necken, erst mal Nein zu probieren
         const msg = yesTeasePokes[Math.min(yesTeasedCount, yesTeasePokes.length - 1)]
         yesTeasedCount++
         showTeaseMessage(msg)
@@ -87,28 +87,28 @@ function showTeaseMessage(msg) {
 function handleNoClick() {
     noClickCount++
 
-    // Cycle through guilt-trip messages
+    // Durch Schuldgefühle-Nachrichten rotieren
     const msgIndex = Math.min(noClickCount, noMessages.length - 1)
     noBtn.textContent = noMessages[msgIndex]
 
-    // Grow the Yes button bigger each time
+    // Ja-Button jedes Mal größer machen
     const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize)
     yesBtn.style.fontSize = `${currentSize * 1.35}px`
     const padY = Math.min(18 + noClickCount * 5, 60)
     const padX = Math.min(45 + noClickCount * 10, 120)
     yesBtn.style.padding = `${padY}px ${padX}px`
 
-    // Shrink No button to contrast
+    // Nein-Button schrumpfen lassen als Kontrast
     if (noClickCount >= 2) {
         const noSize = parseFloat(window.getComputedStyle(noBtn).fontSize)
         noBtn.style.fontSize = `${Math.max(noSize * 0.85, 10)}px`
     }
 
-    // Swap cat GIF through stages
+    // Katzen-GIF durch Stufen wechseln
     const gifIndex = Math.min(noClickCount, gifStages.length - 1)
     swapGif(gifStages[gifIndex])
 
-    // Runaway starts at click 5
+    // Weglaufen startet bei Klick 5
     if (noClickCount >= 5 && !runawayEnabled) {
         enableRunaway()
         runawayEnabled = true
